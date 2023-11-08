@@ -1,16 +1,14 @@
 #!/bin/bash
 
-# Web Page Monitoring Script
+# Simple File Backup Script
 
-url="https://example.com"  # Replace with the URL of the web page you want to monitor
-email="your@email.com"    # Replace with your email address for alerts
+echo "Enter the source directory to backup:"
+read source_dir
 
-response=$(curl -Is "$url" | head -n 1 | cut -d ' ' -f2)
+echo "Enter the destination directory for the backup:"
+read dest_dir
 
-if [ "$response" == "200" ]; then
-    echo "The website $url is accessible."
-else
-    echo "The website $url is down. HTTP Status Code: $response"
-    echo "Sending email alert..."
-    echo "The website $url is down. HTTP Status Code: $response" | mail -s "Website Status Alert" "$email"
-fi
+backup_filename="backup_$(date +'%Y%m%d_%H%M%S').tar.gz"
+
+tar -czvf "$dest_dir/$backup_filename" "$source_dir"
+echo "Backup completed and saved as $dest_dir/$backup_filename"
