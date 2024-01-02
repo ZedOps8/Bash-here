@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Disk Space Alert
+
+email="your@email.com"
+threshold=90
+
+current_space=$(df -h / | awk 'NR==2{print $5}' | cut -d'%' -f1)
+
+if [ "$current_space" -ge "$threshold" ]; then
+    echo "Low disk space alert: $current_space% used on /" | mail -s "Disk Space Alert" "$email"
+fi
